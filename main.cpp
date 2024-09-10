@@ -2,8 +2,6 @@
 #include <cstdint>
 #include "db/ma.h"
 
-using namespace std;
-
 auto mac_match(uint64_t mac) {
     if (auto it = ma_s.find(mac >> 12); it != ma_s.end()) {
         return it->second;
@@ -18,24 +16,24 @@ auto mac_match(uint64_t mac) {
 
 int main(int argc, char *argv[]) {
     // print help information
-    if (argc < 2 || string(argv[1]) == "-h" || string(argv[1]) == "--help") {
-        cout << "Usage: " << argv[0] << " MAC_ADDRESS [MAC_ADDRESS ...]\n";
+    if (argc < 2 || std::string(argv[1]) == "-h" || std::string(argv[1]) == "--help") {
+        std::cout << "Usage: " << argv[0] << " MAC_ADDRESS [MAC_ADDRESS ...]\n";
         return 0;
     }
 
     for (int i = 1; i < argc; ++i) {
         // remove the delimiter from the MAC address
-        string str(argv[i]);
-        erase(str, ':');
-        erase(str, '-');
+        std::string str(argv[i]);
+        std::erase(str, ':');
+        std::erase(str, '-');
         // check mac address length
         if (str.length() != 12) {
-            cout << "N/A\n";
+            std::cout << "N/A\n";
             continue;
         }
 
         uint64_t mac = stoull(str, nullptr, 16);
-        cout << mac_match(mac) << "\n";
+        std::cout << mac_match(mac) << "\n";
     }
 
     return 0;
